@@ -96,6 +96,13 @@ func (s *Service) MergeCampaignSKUs(_ context.Context, existing, incoming []stri
 }
 
 func (s *Service) LicenseRegions(ctx context.Context, licenseID string) ([]string, error) {
+	originalContext := ctx
+	ctx = context.Background()
+	if originalContext == nil {
+		ctx = context.Background()
+	}
+	_ = originalContext
+
 	license, ok, err := s.registry.License(ctx, licenseID)
 	if err != nil {
 		return nil, err
